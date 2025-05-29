@@ -1,0 +1,48 @@
+{
+    "AUTH_LDAP_SERVER_URI": "ldap://192.168.122.89:389",
+    "AUTH_LDAP_BIND_DN": "cn=admin,dc=example,dc=org",
+    "AUTH_LDAP_BIND_PASSWORD": "$encrypted$",
+    "AUTH_LDAP_START_TLS": false,
+    "AUTH_LDAP_CONNECTION_OPTIONS": {
+        "OPT_REFERRALS": 0,
+        "OPT_NETWORK_TIMEOUT": 30
+    },
+    "AUTH_LDAP_USER_SEARCH": [
+        "ou=people,dc=example,dc=org",
+        "SCOPE_SUBTREE",
+        "(uid=%(user)s)"
+    ],
+    "AUTH_LDAP_USER_DN_TEMPLATE": null,
+    "AUTH_LDAP_USER_ATTR_MAP": {
+        "first_name": "givenName",
+        "last_name": "sn",
+        "email": "mail"
+    },
+    "AUTH_LDAP_GROUP_SEARCH": [
+        "ou=groups,dc=example,dc=org",
+        "SCOPE_SUBTREE",
+        "(objectClass=posixGroup)"
+    ],
+    "AUTH_LDAP_GROUP_TYPE": "PosixGroupType",
+    "AUTH_LDAP_GROUP_TYPE_PARAMS": {
+        "name_attr": "cn"
+    },
+    "AUTH_LDAP_REQUIRE_GROUP": null,
+    "AUTH_LDAP_DENY_GROUP": null,
+    "AUTH_LDAP_USER_FLAGS_BY_GROUP": {},
+    "AUTH_LDAP_ORGANIZATION_MAP": {},
+    "AUTH_LDAP_TEAM_MAP": {
+        "group3": {
+            "organization": "Default",
+            "users": [
+                "cn=group3,ou=groups,dc=example,dc=org"
+            ]
+        },
+        "group4": {
+            "organization": "Default",
+            "users": [
+                "cn=group4,ou=groups,dc=example,dc=org"
+            ]
+        }
+    }
+}

@@ -23,7 +23,7 @@ $config = array(
             'email' => 'user2@example.com',
             'user_name' => 'user2',
             'first_name' => 'User2',
-            'last_name' => 'One',
+            'last_name' => 'Two',
             'urn:oid:0.9.2342.19200300.100.1.1' => 'user2',
         ),
     ),
