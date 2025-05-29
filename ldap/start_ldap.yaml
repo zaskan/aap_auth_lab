@@ -42,9 +42,6 @@
         timeout: 30
 
     - name: Import bootstrap LDIF
-      command: >
-        podman exec {{ ldap_container_name }}
-        ldapadd -x -D "cn=admin,dc=example,dc=org" -w {{ ldap_admin_password }} -f {{ container_bootstrap_ldif }}
-      register: ldapadd_result
-      failed_when: "'already exists' not in ldapadd_result.stderr and ldapadd_result.rc != 0"
-
+      containers.podman.podman_container_exec:
+        name: "{{ ldap_container_name }}"
+        command: "ldapadd -x -D \"cn=admin,dc=example,dc=org\" -w {{ ldap_admin_password }} -f {{ container_bootstrap_ldif }}"
