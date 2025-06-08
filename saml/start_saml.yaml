@@ -26,8 +26,11 @@
       - "8443:8443"
 
     # Environment variables / URLs
-    sp_entity_id: "https://192.168.122.85"
-    sp_acs_url: "https://192.168.122.85/sso/complete/saml/"
+    # It changes once SAML migrates from 2.4 old urls to 2.5
+    #sp_entity_id: "https://192.168.122.85"
+    #sp_acs_url: "https://192.168.122.85/sso/complete/saml/"
+    sp_entity_id: "https://192.168.122.30"
+    sp_acs_url: "https://192.168.122.30/api/gateway/social/complete/1dca1e05-1280-43d3-9f51-549561c24012/"
 
   tasks:
     - name: Ensure SimpleSAMLphp IdP container is running

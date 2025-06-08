@@ -12,7 +12,7 @@ dn: uid=user3,ou=people,dc=example,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
-cn: User3
+cn: user3
 sn: Three
 givenName: User3
 uid: user3
@@ -26,7 +26,7 @@ dn: uid=user4,ou=people,dc=example,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
-cn: User4
+cn: user4
 sn: Four
 givenName: User4
 uid: user4
