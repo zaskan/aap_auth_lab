@@ -1,7 +1,7 @@
 {
     "AUTH_LDAP_SERVER_URI": "ldap://192.168.122.89:389",
     "AUTH_LDAP_BIND_DN": "cn=admin,dc=example,dc=org",
-    "AUTH_LDAP_BIND_PASSWORD": "$encrypted$",
+    "AUTH_LDAP_BIND_PASSWORD": "admin",
     "AUTH_LDAP_START_TLS": false,
     "AUTH_LDAP_CONNECTION_OPTIONS": {
         "OPT_REFERRALS": 0,
