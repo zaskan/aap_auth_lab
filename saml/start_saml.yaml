@@ -35,6 +35,7 @@
     sp_acs_url: "{{ entity_url }}"
 
   tasks:
+
     - name: Ensure SimpleSAMLphp IdP container is running
       containers.podman.podman_container:
         name: "{{ idp_container_name }}"
