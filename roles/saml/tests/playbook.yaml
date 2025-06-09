@@ -6,3 +6,6 @@
     - name: Deploy SAML and configure controller
       ansible.builtin.include_role:
         name: saml
+      vars:
+        idp_host: "http://192.168.122.89:8080"
+        entity_url: "https://192.168.122.82/sso/complete/saml/"
