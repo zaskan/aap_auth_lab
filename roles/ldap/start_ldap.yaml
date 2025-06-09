@@ -1,0 +1,47 @@
+---
+- name: Run OpenLDAP container with Podman (parameterized, plain-text password)
+  hosts: localhost
+  become: true
+  vars:
+    ldap_image: osixia/openldap:1.5.0
+    ldap_container_name: testldap
+    ldap_ports:
+      - "389:389"
+      - "636:636"
+
+    # Environment variables
+    ldap_org: "Example Inc."
+    ldap_domain: "example.org"
+    ldap_admin_password: "admin"
+
+    # LDIF file with known user password ("password")
+    ldap_bootstrap_ldif: "./bootstrap.ldif"
+    container_bootstrap_ldif: "/ldif/50-bootstrap.ldif"
+
+  tasks:
+    - name: Ensure OpenLDAP container is running
+      containers.podman.podman_container:
+        name: "{{ ldap_container_name }}"
+        image: "{{ ldap_image }}"
+        state: started
+        recreate: true
+        detach: true
+        ports: "{{ ldap_ports }}"
+        env:
+          LDAP_ORGANISATION: "{{ ldap_org }}"
+          LDAP_DOMAIN: "{{ ldap_domain }}"
+          LDAP_ADMIN_PASSWORD: "{{ ldap_admin_password }}"
+        volume:
+          - "{{ ldap_bootstrap_ldif }}:{{ container_bootstrap_ldif }}:Z"
+
+    - name: Wait for LDAP to be available
+      wait_for:
+        host: "localhost"
+        port: 389
+        delay: 5
+        timeout: 30
+
+    - name: Import bootstrap LDIF
+      containers.podman.podman_container_exec:
+        name: "{{ ldap_container_name }}"
+        command: "ldapadd -x -D \"cn=admin,dc=example,dc=org\" -w {{ ldap_admin_password }} -f {{ container_bootstrap_ldif }}"

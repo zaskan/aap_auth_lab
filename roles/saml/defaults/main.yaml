@@ -1,0 +1,45 @@
+---
+
+# Your SimpleSAML host and port
+idp_host: "http://192.168.122.89:8080"
+
+# Find this partameter in the Ansible Controller or Gateway settings
+# Examples:
+# sp_acs_url: "https://192.168.122.85/sso/complete/saml/"
+# sp_acs_url: "https://192.168.122.85/api/gateway/social/complete/1dca1e05-1280-43d3-9f51-549561c24012/"
+entity_url: "https://192.168.122.82/sso/complete/saml/"
+
+idp_image: kenchan0130/simplesamlphp
+idp_container_name: testsamlidp
+
+# Paths to config, metadata, and cert files (host side)
+config_dir: "/tmp/simplesaml"
+authsources_file: "authsources.php"
+config_file: "config.php"
+metadata_file: "saml20-idp-hosted.php.j2"
+parsed_metadata_filename: "saml20-idp-hosted.php"
+saml_key_file: "saml.key"
+saml_crt_file: "saml.crt"
+
+# Paths inside the container
+container_authsources: "/var/www/simplesamlphp/config/authsources.php:Z"
+container_config: "/var/www/simplesamlphp/config/config.php:Z"
+container_metadata: "/var/www/simplesamlphp/metadata/saml20-idp-hosted.php:Z"
+container_saml_key: "/var/www/simplesamlphp/cert/saml.key:Z"
+container_saml_crt: "/var/www/simplesamlphp/cert/saml.crt:Z"
+
+# Ports
+idp_ports:
+  - "8080:8080"
+  - "8443:8443"
+
+# Environment variables / URLs
+sp_entity_id: "{{ entity_url | urlsplit('scheme') }}://{{ entity_url | urlsplit('hostname') }}"
+sp_acs_url: "{{ entity_url }}"
+
+# Configuration client parameters
+
+givenName: samltech
+emailAddress: samltech@example.com
+name: aap
+displayname: Ansible Automation Platform Cluster

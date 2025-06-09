@@ -1,0 +1,18 @@
+---
+- name: Configure ldap setting in an Ansible Automation Platform 2.4 Controller Instance
+  hosts: localhost
+  tasks:
+
+#    - name: Create a new token
+#      ansible.controller.token:
+#        description: 'ldap'
+#        scope: "write"
+#        state: present
+#        validate_certs: false
+#      register: ldap_token
+
+    - name: Set all the LDAP Auth Bind Params
+      ansible.controller.settings:
+#        controller_oauthtoken: "{{ ldap_token }}"
+        settings: "{{ lookup('ansible.builtin.file', 'ldap.json' )}}"
+        validate_certs: false

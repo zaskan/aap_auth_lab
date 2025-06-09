@@ -1,0 +1,2 @@
+localhost ansible_connection=local
+podman ansible_host=podman.example.com ansible_user=cloud-user ansible_ssh_private_key_file=~/.ssh/id_rsa 

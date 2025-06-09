@@ -1,0 +1,8 @@
+---
+- name: Deploy SimpleSAML and configure Ansible Controller
+  hosts: podman
+  become: true
+  tasks:
+    - name: Deploy SAML and configure controller
+      ansible.builtin.include_role:
+        name: saml

@@ -1,0 +1,22 @@
+- name: Include SimpleSAML installation Files
+  ansible.builtin.include_tasks:
+    file: start_saml.yaml
+
+- name: Get AAP Version
+  ansible.builtin.uri:
+    url: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}/api/v2/ping"
+    status_code:
+      - 404
+      - 200
+    validate_certs: false
+  register: aap
+
+- name: Include Ansible Controller 2.4 CasC Files
+  ansible.builtin.include_tasks:
+    file: casc_24.yaml
+  when: aap.status == 200
+
+- name: Include Ansible Controller 2.5 CasC Files
+  ansible.builtin.include_tasks:
+    file: casc_25.yaml
+  when: aap.status == 404

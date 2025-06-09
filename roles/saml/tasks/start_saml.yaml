@@ -1,0 +1,45 @@
+---
+- name: Create configuration files directory
+  ansible.builtin.file:
+    path: "{{ config_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy configuration files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ config_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - "{{ authsources_file }}"
+    - "{{ config_file }}"
+    - "{{ saml_key_file }}"
+    - "{{ saml_crt_file }}"
+
+- name: Parse metadata configuration
+  ansible.builtin.template:
+    src: "{{ metadata_file }}"
+    dest: "{{ config_dir }}/{{ parsed_metadata_filename }}"
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Ensure SimpleSAMLphp IdP container is running
+  containers.podman.podman_container:
+    name: "{{ idp_container_name }}"
+    image: "{{ idp_image }}"
+    state: started
+    recreate: true
+    detach: true
+    ports: "{{ idp_ports }}"
+    volume:
+      - "{{ config_dir }}/{{ authsources_file }}:{{ container_authsources }}"
+      - "{{ config_dir }}/{{ config_file }}:{{ container_config }}"
+      - "{{ config_dir }}/{{ parsed_metadata_filename }}:{{ container_metadata }}"
+      - "{{ config_dir }}/{{ saml_key_file }}:{{ container_saml_key }}"
+      - "{{ config_dir }}/{{ saml_crt_file }}:{{ container_saml_crt }}"
+    env:
+      SIMPLESAMLPHP_SP_ENTITY_ID: "{{ sp_entity_id }}"
+      SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: "{{ sp_acs_url }}"
