@@ -1,0 +1,4 @@
+  collections:
+    - name: ansible.controller
+      version: '>=4.5.0,<4.6.0' # Change the versions according your Ansible Automation Platform Version
+    - name: containers.podman

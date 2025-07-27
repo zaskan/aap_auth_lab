@@ -1,0 +1,10 @@
+ldap_image: docker.io/osixia/openldap:1.5.0
+ldap_container_name: testldap
+ldap_ports:
+  - "389:389"
+  - "636:636"
+ldap_org: "Example Inc."
+ldap_domain: "example.org"
+ldap_admin_password: "admin"
+ldap_bootstrap_ldif: "bootstrap.ldif"
+container_bootstrap_ldif: "/ldif/50-bootstrap.ldif"

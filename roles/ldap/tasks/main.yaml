@@ -1,0 +1,38 @@
+---
+- name: Ensure OpenLDAP container is running
+  containers.podman.podman_container:
+    name: "{{ ldap_container_name }}"
+    image: "{{ ldap_image }}"
+    state: started
+    recreate: true
+    detach: true
+    ports: "{{ ldap_ports }}"
+    env:
+      LDAP_ORGANISATION: "{{ ldap_org }}"
+      LDAP_DOMAIN: "{{ ldap_domain }}"
+      LDAP_ADMIN_PASSWORD: "{{ ldap_admin_password }}"
+    volume:
+      - "{{ ldap_bootstrap_ldif }}:{{ container_bootstrap_ldif }}:Z"
+
+- name: Wait for LDAP to be available
+  ansible.builtin.wait_for:
+    host: "localhost"
+    port: 389
+    delay: 5
+    timeout: 30
+
+- name: Import bootstrap LDIF
+  containers.podman.podman_container_exec:
+    name: "{{ ldap_container_name }}"
+    command: "ldapadd -x -D \"cn=admin,dc=example,dc=org\" -w {{ ldap_admin_password }} -f {{ container_bootstrap_ldif }}"
+
+- name: Template ldap config file
+  ansible.builtin.set_fact:
+    ldap_config: "{{ lookup('ansible.builtin.template', 'ldap.json.j2') }}"
+  when: ldap_server is defined
+
+- name: Set all the LDAP Auth Bind Params
+  ansible.controller.settings:
+    settings: "{{ ldap_config }}"
+    validate_certs: false
+  when: ldap_server is defined

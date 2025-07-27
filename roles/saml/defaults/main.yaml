@@ -9,7 +9,7 @@ idp_host: "http://192.168.122.89:8080"
 # sp_acs_url: "https://192.168.122.85/api/gateway/social/complete/1dca1e05-1280-43d3-9f51-549561c24012/"
 entity_url: "https://192.168.122.82/sso/complete/saml/"
 
-idp_image: kenchan0130/simplesamlphp
+idp_image: docker.io/kenchan0130/simplesamlphp
 idp_container_name: testsamlidp
 
 # Paths to config, metadata, and cert files (host side)
