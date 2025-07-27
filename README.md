@@ -1,8 +1,8 @@
 # Ansible Automation Platform Auth Lab
 ## Overview
-This repository provides two roles in order to bring up an LDAP and a SAML podman containers in an easy way.
+This repository provides two roles I use personally in order to bring up an LDAP and a SAML podman containers in an easy way.
 It also configures the proper settings in an Ansible Automation Platform in order to integrate with them.
-The purpose is to serve an authentication environment for testing or troubleshooting.
+The purpose is to serve an authentication environment for testing or troubleshooting. **This is not for production environments.**
 ### Requirements
 - ansible.controller collection version 4.5.X for Ansible Controller 2.4
 - ansible.controller collection version 4.6.X for Ansible Automation Gateway 2.5 (To do)
